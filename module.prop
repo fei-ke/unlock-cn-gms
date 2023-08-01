@@ -1,6 +1,6 @@
 id=com.fei_ke.unlockcngms
 name=Unlock CN GMS
-version=v3.3
-versionCode=33
+version=v3.4
+versionCode=34
 author=fei-ke
 description= 去除国行手机对 GMS 的阉割（比如无法使用 Google Location History 等等）
