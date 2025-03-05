@@ -5,9 +5,9 @@ elif [ -e /system/etc/permissions/com.oppo.features.cn_google.xml ]; then
 elif [ -e /vendor/etc/permissions/services.cn.google.xml ]; then
     origin=/vendor/etc/permissions/services.cn.google.xml
 elif [ -e /system/product/etc/permissions/services.cn.google.xml ]; then
-    origin=/product/etc/permissions/services.cn.google.xml
+    origin=/system/product/etc/permissions/services.cn.google.xml
 elif [ -e /system/product/etc/permissions/cn.google.services.xml ]; then
-    origin=/product/etc/permissions/cn.google.services.xml
+    origin=/system/product/etc/permissions/cn.google.services.xml
 elif [ -e /product/etc/permissions/services.cn.google.xml ]; then
     origin=/product/etc/permissions/services.cn.google.xml
 elif [ -e /product/etc/permissions/cn.google.services.xml ]; then
