@@ -6,8 +6,6 @@ find_origin() {
         /system/etc/permissions/services.cn.google.xml \
         /system/etc/permissions/com.oppo.features.cn_google.xml \
         /vendor/etc/permissions/services.cn.google.xml \
-        /system/product/etc/permissions/services.cn.google.xml \
-        /system/product/etc/permissions/cn.google.services.xml \
         /product/etc/permissions/services.cn.google.xml \
         /product/etc/permissions/cn.google.services.xml \
         /my_bigball/etc/permissions/oplus_google_cn_gms_features.xml \
