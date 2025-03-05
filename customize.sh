@@ -1,24 +1,26 @@
-if [ -e /system/etc/permissions/services.cn.google.xml ]; then
-    origin=/system/etc/permissions/services.cn.google.xml
-elif [ -e /system/etc/permissions/com.oppo.features.cn_google.xml ]; then
-    origin=/system/etc/permissions/com.oppo.features.cn_google.xml
-elif [ -e /vendor/etc/permissions/services.cn.google.xml ]; then
-    origin=/vendor/etc/permissions/services.cn.google.xml
-elif [ -e /system/product/etc/permissions/services.cn.google.xml ]; then
-    origin=/system/product/etc/permissions/services.cn.google.xml
-elif [ -e /system/product/etc/permissions/cn.google.services.xml ]; then
-    origin=/system/product/etc/permissions/cn.google.services.xml
-elif [ -e /product/etc/permissions/services.cn.google.xml ]; then
-    origin=/product/etc/permissions/services.cn.google.xml
-elif [ -e /product/etc/permissions/cn.google.services.xml ]; then
-    origin=/product/etc/permissions/cn.google.services.xml
-elif [ -e /my_bigball/etc/permissions/oplus_google_cn_gms_features.xml ]; then
-    origin=/my_bigball/etc/permissions/oplus_google_cn_gms_features.xml
-elif [ -e /my_heytap/etc/permissions/my_heytap_cn_gms_features.xml ]; then
-    origin=/my_heytap/etc/permissions/my_heytap_cn_gms_features.xml
-else
-    abort "File not found!"
-fi
+#!/system/bin/sh
+
+# Function to find the first available XML permission file
+find_origin() {
+    for file in \
+        /system/etc/permissions/services.cn.google.xml \
+        /system/etc/permissions/com.oppo.features.cn_google.xml \
+        /vendor/etc/permissions/services.cn.google.xml \
+        /system/product/etc/permissions/services.cn.google.xml \
+        /system/product/etc/permissions/cn.google.services.xml \
+        /product/etc/permissions/services.cn.google.xml \
+        /product/etc/permissions/cn.google.services.xml \
+        /my_bigball/etc/permissions/oplus_google_cn_gms_features.xml \
+        /my_heytap/etc/permissions/my_heytap_cn_gms_features.xml; do
+        if [ -e "$file" ]; then
+            echo "$file"
+            return
+        fi
+    done
+    abort "No suitable permission file found!"
+}
+
+origin=$(find_origin)
 
 if [[ $origin == *my_bigball* ]]; then
     target=$MODPATH/oplus_google_cn_gms_features.xml
