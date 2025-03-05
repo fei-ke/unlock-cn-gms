@@ -35,7 +35,7 @@ jobs:
           properties: 'version'
 
       - name: Upload Release
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ github.event.repository.name }}-${{ steps.read_prop.outputs.version }}
           path: |
