@@ -32,8 +32,8 @@ elif [[ $origin == *my_heytap* ]]; then
         heytap_cn_features_orgin=/my_heytap/etc/permissions/my_heytap_cn_features.xml
         heytap_cn_features_target=$MODPATH/my_heytap_cn_features.xml
     fi
-elif [[ $origin == *system* ]]; then
-    target=$MODPATH$origin    
+elif [[ $origin == *system* ]] || [[ -n $KSU && -z $KSU_MAGIC_MOUNT ]]; then
+    target=$MODPATH$origin
 else
     target=$MODPATH/system$origin
 fi
