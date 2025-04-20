@@ -9,6 +9,7 @@ find_origin() {
         /product/etc/permissions/services.cn.google.xml \
         /product/etc/permissions/cn.google.services.xml \
         /my_bigball/etc/permissions/oplus_google_cn_gms_features.xml \
+        /my_product/etc/permissions/oplus_google_cn_gms_features.xml \
         /my_heytap/etc/permissions/my_heytap_cn_gms_features.xml; do
         if [ -e "$file" ]; then
             echo "$file"
@@ -24,6 +25,9 @@ if [[ $origin == *my_bigball* ]]; then
     target=$MODPATH/oplus_google_cn_gms_features.xml
     echo -e '#!/system/bin/sh\nmount -o ro,bind ${0%/*}/oplus_google_cn_gms_features.xml /my_bigball/etc/permissions/oplus_google_cn_gms_features.xml' > $MODPATH/post-fs-data.sh
     # echo 'sleep 60; umount /my_bigball/etc/permissions/oplus_google_cn_gms_features.xml' > $MODPATH/service.sh
+elif [[ $origin == *my_product* ]]; then
+    target=$MODPATH/oplus_google_cn_gms_features.xml
+    echo -e '#!/system/bin/sh\nmount -o ro,bind ${0%/*}/oplus_google_cn_gms_features.xml /my_product/etc/permissions/oplus_google_cn_gms_features.xml' > $MODPATH/post-fs-data.sh
 elif [[ $origin == *my_heytap* ]]; then
     target=$MODPATH/my_heytap_cn_gms_features.xml
     echo -e '#!/system/bin/sh\nmount -o ro,bind ${0%/*}/my_heytap_cn_gms_features.xml /my_heytap/etc/permissions/my_heytap_cn_gms_features.xml' > $MODPATH/post-fs-data.sh
