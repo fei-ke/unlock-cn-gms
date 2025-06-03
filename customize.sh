@@ -39,15 +39,18 @@ elif [[ $origin == *my_heytap* ]]; then
         heytap_cn_features_target=$MODPATH/my_heytap_cn_features.xml
     fi
 elif [[ $origin == *system* ]]; then
-    target=$MODPATH$origin    
+    target=$MODPATH$origin
+    ui_print $target
 else
     target=$MODPATH/system$origin
 fi
 
-mkdir -p $(dirname $target)
+DIR_OF_TARGET=$(dirname $target)
+mkdir -p $DIR_OF_TARGET
 cp -f $origin $target
 sed -i '/cn.google.services/d' $target
 sed -i '/services_updater/d' $target
+
 ui_print "modify $origin"
 
 if [[ -e $heytap_cn_features_orgin ]]; then
