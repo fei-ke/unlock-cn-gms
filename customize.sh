@@ -1,5 +1,7 @@
 #!/system/bin/sh
 
+set -x
+
 # Function to find the first available XML permission file
 find_origin() {
     for file in \
