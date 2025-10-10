@@ -50,7 +50,7 @@ sed -i '/services_updater/d' $target
 
 ui_print "modify $origin"
 
-if [[ -e $heytap_cn_features_orgin ]]; then
+if [[ -e "$heytap_cn_features_orgin" ]]; then
 mkdir -p $(dirname $heytap_cn_features_target)
 cp -f $heytap_cn_features_orgin $heytap_cn_features_target
 sed -i '/cn.google.services/d' $heytap_cn_features_target
