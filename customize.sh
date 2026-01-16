@@ -8,6 +8,7 @@ find_origin() {
         /vendor/etc/permissions/services.cn.google.xml \
         /product/etc/permissions/services.cn.google.xml \
         /product/etc/permissions/cn.google.services.xml \
+        /product/etc/sysconfig/cn_feature.xml \
         /my_bigball/etc/permissions/oplus_google_cn_gms_features.xml \
         /my_product/etc/permissions/oplus_google_cn_gms_features.xml \
         /my_heytap/etc/permissions/my_heytap_cn_gms_features.xml; do
