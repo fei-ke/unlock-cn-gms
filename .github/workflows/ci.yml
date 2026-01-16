@@ -7,6 +7,9 @@ on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
     branches: [ "master" ]
+    tags:
+      - "v*"
+      
   pull_request:
     branches: [ "master" ]
 
@@ -23,7 +26,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -41,3 +44,15 @@ jobs:
           path: |
             *
             !.*
+            
+      - name: Pack Release
+        if: github.ref_type == 'tag'
+        run: zip -r ${{ github.event.repository.name }}-${{ steps.read_prop.outputs.version }}.zip . -x ".*"
+
+      - name: Create Release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          files: '*.zip'
