@@ -3,6 +3,8 @@
 # Function to find the first available XML permission file
 find_origin() {
     for file in \
+        /system/product/etc/permissions/cn.google.services.xml \
+        /system/product/etc/permissions/services.cn.google.xml \
         /system/etc/permissions/services.cn.google.xml \
         /system/etc/permissions/com.oppo.features.cn_google.xml \
         /vendor/etc/permissions/services.cn.google.xml \
