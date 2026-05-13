@@ -4,6 +4,7 @@ FILES="\
 /system/etc/permissions/services.cn.google.xml
 /system/etc/permissions/com.oppo.features.cn_google.xml
 /vendor/etc/permissions/services.cn.google.xml
+/vendor/etc/permissions/cn.google.services.xml
 /product/etc/permissions/services.cn.google.xml
 /product/etc/permissions/cn.google.services.xml
 /product/etc/sysconfig/cn_feature.xml
