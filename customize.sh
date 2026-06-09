@@ -16,6 +16,27 @@ FILES="\
 found=false
 need_bind_mount=false
 
+if [[ -n "$KSU" ]]; then
+    for partition in product vendor odm system_ext; do
+        [ -L "$MODPATH/$partition" ] && rm -f "$MODPATH/$partition"
+    done
+fi
+
+clean_file() {
+    sed -i '/cn.google.services/d' "$1"
+    sed -i '/services_updater/d' "$1"
+
+    if grep -Eq '<(permissions|config)([[:space:]>])' "$1"; then
+        return
+    fi
+
+    if echo "$1" | grep -q '/sysconfig/'; then
+        printf '%s\n' '<?xml version="1.0" encoding="utf-8"?>' '<config>' '</config>' > "$1"
+    else
+        printf '%s\n' '<?xml version="1.0" encoding="utf-8"?>' '<permissions>' '</permissions>' > "$1"
+    fi
+}
+
 for origin in $FILES; do
     [ ! -e "$origin" ] && continue
     found=true
@@ -38,19 +59,18 @@ for origin in $FILES; do
             heytap_cn_features_target=$MODPATH/my_heytap_cn_features.xml
         fi
     elif [[ $origin == /odm/* ]]; then
-        target=$MODPATH/$(basename $origin)
-        echo "mount -o ro,bind \${0%/*}/$(basename $origin) $origin" >> $MODPATH/post-fs-data.sh
-        need_bind_mount=true
+        target=$MODPATH$origin
     elif [[ $origin == *system* ]]; then
+        target=$MODPATH$origin
+    elif [[ -n "$KSU" ]]; then
         target=$MODPATH$origin
     else
         target=$MODPATH/system$origin
     fi
 
-    mkdir -p $(dirname $target)
-    cp -f $origin $target
-    sed -i '/cn.google.services/d' $target
-    sed -i '/services_updater/d' $target
+    mkdir -p "$(dirname "$target")"
+    cp -f "$origin" "$target"
+    clean_file "$target"
     ui_print "modify $origin"
 done
 
@@ -59,10 +79,9 @@ if $need_bind_mount; then
 fi
 
 if [[ -e "$heytap_cn_features_orgin" ]]; then
-    mkdir -p $(dirname $heytap_cn_features_target)
-    cp -f $heytap_cn_features_orgin $heytap_cn_features_target
-    sed -i '/cn.google.services/d' $heytap_cn_features_target
-    sed -i '/services_updater/d' $heytap_cn_features_target
+    mkdir -p "$(dirname "$heytap_cn_features_target")"
+    cp -f "$heytap_cn_features_orgin" "$heytap_cn_features_target"
+    clean_file "$heytap_cn_features_target"
     ui_print "modify $heytap_cn_features_orgin"
 fi
 
