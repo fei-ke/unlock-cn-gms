@@ -27,7 +27,7 @@ Supported file locations:
  ``` 
  以此来实现去除国行 GMS 的限制。
 
- 注意：部分设备上可能同时存在多个配置文件（如小米 8e5 同时在 `/odm` 和 `/product` 分区下各有一个），本模块会自动处理所有匹配的文件。对于独立挂载的分区（如 `/odm`、`/my_bigball` 等），通过 bind mount 方式替换。
+ 注意：部分设备上可能同时存在多个配置文件（如小米 8e5 同时在 `/odm` 和 `/product` 分区下各有一个），本模块会自动处理所有匹配的文件。在 KernelSU 环境下，`/product`、`/vendor`、`/odm` 等动态分区会生成顶层分区目录，以便 KernelSU/Hybrid Mount 的 overlay 和 magic 模式识别真实分区。对于 `/my_bigball` 等特殊分区，仍通过 bind mount 方式替换。
 
  **注意**：为了开启 `Google Location History` 服务，你可能还需要配合其他模块   
  例如
