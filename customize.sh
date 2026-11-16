@@ -59,6 +59,27 @@ for origin in $FILES; do
     sed -i '/cn.google.services/d' $target
     sed -i '/services_updater/d' $target
     ui_print "modify $origin"
+
+    # --- metamodule-independent bind mount (see PR description) -----------
+    # On KernelSU the module's own system/ tree is only mounted when the user
+    # installed a metamodule (meta-overlayfs / mountify / magic_mount). Without
+    # one the copy above is a no-op, so this module silently does nothing on
+    # devices whose permission XML lives in /product (e.g. Xiaomi 17 / HyperOS 3,
+    # issue #34). Bind mount every matched file at post-fs-data, exactly like
+    # the /odm and /my_* branches already do. If the overlay mount runs as well
+    # the duplicate mount is harmless: both sources hold the same cleaned XML.
+    # Branches above already emitted a bind mount -> skip to avoid stacking two
+    # mounts on the same file.
+    if ! grep -q " $origin\$" $MODPATH/post-fs-data.sh 2>/dev/null; then
+        bind_name=$(echo "$origin" | sed 's#^/##; s#/#_#g')
+        bind_target=$MODPATH/bind/$bind_name
+        mkdir -p $(dirname $bind_target)
+        cp -f $origin $bind_target
+        sed -i '/cn.google.services/d' $bind_target
+        sed -i '/services_updater/d' $bind_target
+        echo "mount -o ro,bind \${0%/*}/bind/$bind_name $origin" >> $MODPATH/post-fs-data.sh
+        need_bind_mount=true
+    fi
 done
 
 if $need_bind_mount; then
